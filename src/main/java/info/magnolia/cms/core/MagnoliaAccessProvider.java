@@ -173,19 +173,19 @@ public class MagnoliaAccessProvider extends CombinedProvider {
 //        }
 //    }
 
-//    @Override
-//    public boolean isAcItem(ItemImpl item) throws RepositoryException {
-//        log.debug("isAcItem({})", item);
-////        return super.isAcItem(item);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAcItem(Path absPath) throws RepositoryException {
-//        log.debug("isAcItem({})", absPath);
-////        return super.isAcItem(absPath);
-//        return true;
-//    }
+    @Override
+    public boolean isAcItem(ItemImpl item) throws RepositoryException {
+        log.debug("isAcItem({})", item);
+//        return super.isAcItem(item);
+        return true;
+    }
+
+    @Override
+    public boolean isAcItem(Path absPath) throws RepositoryException {
+        log.debug("isAcItem({})", absPath);
+//        return super.isAcItem(absPath);
+        return true;
+    }
 
 //    private String printUserNames(Set<Principal> principals) {
 //        StringBuilder sb = new StringBuilder();

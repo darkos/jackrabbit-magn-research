@@ -22,11 +22,13 @@ public class SecuredRepository {
         
         try {
         	Workspace workspace = session.getWorkspace();
+        	workspace.createWorkspace("darkonije");
         	String[] workspaceNames =  workspace.getAccessibleWorkspaceNames();
+        	System.out.println("WORKSPACES -----------------");
         	for(String wspace : workspaceNames) {
         		System.out.println(wspace);
         	}
-        	
+        	System.out.println("WORKSPACES -----------------");
         	Session session1 = repository.login( 
         	        new SimpleCredentials("admin", "admin".toCharArray()), "default");
         	System.out.println("workspace name:" + session1.getWorkspace().getName());

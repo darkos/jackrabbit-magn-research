@@ -4,4 +4,7 @@ target
 .project
 .settings
 *.log
+*.jar
+log
+tmp
 
