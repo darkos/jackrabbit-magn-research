@@ -49,10 +49,13 @@ import java.util.Set;
 //
 //import javax.jcr.ItemNotFoundException;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+
 //import javax.jcr.Session;
 //import javax.jcr.security.AccessControlPolicy;
 //
 import org.apache.jackrabbit.core.ItemImpl;
+import org.apache.jackrabbit.core.security.authorization.AccessControlEditor;
 //import org.apache.jackrabbit.core.security.authorization.AccessControlEditor;
 import org.apache.jackrabbit.core.security.authorization.CompiledPermissions;
 import org.apache.jackrabbit.core.security.authorization.combined.CombinedProvider;
@@ -68,7 +71,7 @@ public class MagnoliaAccessProvider extends CombinedProvider {
 
     private static final Logger log = LoggerFactory.getLogger(MagnoliaAccessProvider.class);
 //
-//    private CompiledPermissions RootOnlyPermission;
+    private CompiledPermissions RootOnlyPermission;
 //
 //    private Map<?, ?> configuration;
 
@@ -81,36 +84,36 @@ public class MagnoliaAccessProvider extends CombinedProvider {
     @Override
     public boolean canAccessRoot(Set<Principal> principals) throws RepositoryException {
         checkInitialized();
-
         // old Magnolia security allowed access to root to every user
         return true;
     }
 
-//    @Override
-//    public void close() {
-//        log.debug("close()");
-//        super.close();
-//    }
+    @Override
+    public void close() {
+        log.debug("close()");
+        super.close();
+    }
 
-//    @Override
-//    public CompiledPermissions compilePermissions(Set<Principal> principals) throws RepositoryException {
-//        log.debug("compile permissions for {} at {}", printUserNames(principals), session == null ? null : session.getWorkspace().getName());
-//        checkInitialized();
-//
-//        // superuser is also admin user!
-//        if (isAdminOrSystem(principals)) {
-//            return getAdminPermissions();
-//        }
-//
-//        final String workspaceName = super.session.getWorkspace().getName();
-//
+    @Override
+    public CompiledPermissions compilePermissions(Set<Principal> principals) throws RepositoryException {
+        log.debug("compile permissions for {} at {}", printUserNames(principals), session == null ? null : session.getWorkspace().getName());
+        checkInitialized();
+
+        // superuser is also admin user!
+        if (isAdminOrSystem(principals)) {
+            return getAdminPermissions();
+        }
+
+        final String workspaceName = super.session.getWorkspace().getName();
+
 //        ACL acl = PrincipalUtil.findAccessControlList(principals, workspaceName);
 //        if (acl != null) {
 //            return getUserPermissions(addJcrSystemReadPermissions(acl.getList()));
 //        }
-//
+
 //        return RootOnlyPermission;
-//    }
+        return getAdminPermissions();
+    }
 
 //    private CompiledPermissions getUserPermissions(List<Permission> permissions) {
 //        return Classes.getClassFactory().newInstance(permissionsClass, permissions, session, configuration);
@@ -187,14 +190,14 @@ public class MagnoliaAccessProvider extends CombinedProvider {
         return true;
     }
 
-//    private String printUserNames(Set<Principal> principals) {
-//        StringBuilder sb = new StringBuilder();
-//        for (Principal p : principals) {
-//            sb.append(" or ").append(p.getName()).append("[").append(p.getClass().getName()).append("]");
-//        }
-//        sb.delete(0, 4);
-//        return sb.toString();
-//    }
+    private String printUserNames(Set<Principal> principals) {
+        StringBuilder sb = new StringBuilder();
+        for (Principal p : principals) {
+            sb.append(" or ").append(p.getName()).append("[").append(p.getClass().getName()).append("]");
+        }
+        sb.delete(0, 4);
+        return sb.toString();
+    }
 
 //    private List<Permission> addJcrSystemReadPermissions(List<Permission> permissions) {
 //        Permission permission = new PermissionImpl();
